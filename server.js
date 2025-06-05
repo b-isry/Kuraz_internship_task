@@ -9,6 +9,43 @@ let tasks = [
     {id: 2, title: 'Task 2', completed: false},
 ];
 
+
+app.get('/', (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Server Status</title>
+            <style>
+                body {
+                    background: #f0f4f8;
+                    display: flex;
+                    height: 100vh;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: Arial, sans-serif;
+                }
+                .msg {
+                    background: #fff;
+                    padding: 2rem 3rem;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                    font-size: 1.5rem;
+                    color: #2d7a2d;
+                    border: 1px solid #e0e0e0;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="msg">Server is running </div>
+        </body>
+        </html>
+    `);
+});
+
+
 app.get('/ping', (req, res) => {
     res.json({message: 'pong'});
 });
