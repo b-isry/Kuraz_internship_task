@@ -14,7 +14,16 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/tasks', (req, res) => {
-    res.json(tasks);
+    const { status } = req.query;
+    let filteredTasks = tasks;
+
+    if (status === 'completed') {
+        filteredTasks = tasks.filter(task => task.completed);
+    } else if (status === 'pending') {
+        filteredTasks = tasks.filter(task => !task.completed);
+    }
+
+    res.json(filteredTasks);
 });
 
 app.post('/tasks', (req, res) => {
