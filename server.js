@@ -27,9 +27,13 @@ app.get('/tasks', (req, res) => {
 });
 
 app.post('/tasks', (req, res) => {
+    const { title } = req.body;
+    if (!title || typeof title !== 'string' || title.trim() === '') {
+        return res.status(400).json({ message: 'Title is required and must not be empty.' });
+    }
     const newTask = {
         id: tasks.length + 1,
-        title: req.body.title,
+        title: title.trim(),
         completed: false
     };
     tasks.push(newTask);
@@ -44,8 +48,15 @@ app.put('/tasks/:id', (req, res) => {
         return res.status(404).json({message: 'Task not found'});
     }
 
-    task.title = req.body.title || task.title;
-    task.completed = req.body.completed !== undefined ? req.body.completed : task.completed;
+    if (req.body.title !== undefined) {
+        if (typeof req.body.title !== 'string' || req.body.title.trim() === '') {
+            return res.status(400).json({ message: 'Title must not be empty.' });
+        }
+        task.title = req.body.title.trim();
+    }
+    if (req.body.completed !== undefined) {
+        task.completed = req.body.completed;
+    }
 
     res.json(task);
 });
